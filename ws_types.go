@@ -191,6 +191,7 @@ type (
 		ClosedPnl     string           `json:"closedPnl"`
 		Hash          string           `json:"hash"`    // L1 transaction hash
 		Oid           int64            `json:"oid"`     // order id
+		Cloid         *string          `json:"cloid,omitempty"`
 		Crossed       bool             `json:"crossed"` // whether order crossed the spread (was taker)
 		Fee           string           `json:"fee"`     // negative means rebate
 		Tid           int64            `json:"tid"`     // unique trade id

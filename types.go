@@ -386,9 +386,10 @@ type Fill struct {
 	Coin          string `json:"coin"`
 	Crossed       bool   `json:"crossed"`
 	Dir           string `json:"dir"`
-	Hash          string `json:"hash"`
-	Oid           int64  `json:"oid"`
-	Price         string `json:"px"`
+	Hash          string  `json:"hash"`
+	Oid           int64   `json:"oid"`
+	Cloid         *string `json:"cloid,omitempty"`
+	Price         string  `json:"px"`
 	Side          string `json:"side"`
 	StartPosition string `json:"startPosition"`
 	Size          string `json:"sz"`

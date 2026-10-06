@@ -9217,6 +9217,16 @@ func easyjson6601e8cdDecodeGithubComSoniricoGoHyperliquid73(in *jlexer.Lexer, ou
 			} else {
 				out.Oid = int64(in.Int64())
 			}
+		case "cloid":
+			if in.IsNull() {
+				in.Skip()
+				out.Cloid = nil
+			} else {
+				if out.Cloid == nil {
+					out.Cloid = new(string)
+				}
+				*out.Cloid = string(in.String())
+			}
 		case "px":
 			if in.IsNull() {
 				in.Skip()
@@ -9314,6 +9324,11 @@ func easyjson6601e8cdEncodeGithubComSoniricoGoHyperliquid73(out *jwriter.Writer,
 		const prefix string = ",\"oid\":"
 		out.RawString(prefix)
 		out.Int64(int64(in.Oid))
+	}
+	if in.Cloid != nil {
+		const prefix string = ",\"cloid\":"
+		out.RawString(prefix)
+		out.String(string(*in.Cloid))
 	}
 	{
 		const prefix string = ",\"px\":"
