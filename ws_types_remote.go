@@ -163,6 +163,21 @@ func (p remoteUserFundingsSubscriptionPayload) Key() string {
 	return keyUserFundings(p.User)
 }
 
+type remoteSpotStateSubscriptionPayload struct {
+	Type              string `json:"type"`
+	User              string `json:"user"`
+	IsPortfolioMargin *bool  `json:"isPortfolioMargin,omitempty"`
+}
+
+func (p remoteSpotStateSubscriptionPayload) Channel() string {
+	return p.Type
+}
+
+func (p remoteSpotStateSubscriptionPayload) Key() string {
+	// 推送里没有 isPortfolioMargin，分发只能按用户匹配。
+	return keySpotState(p.User)
+}
+
 type remoteWebData2SubscriptionPayload struct {
 	Type string `json:"type"`
 	User string `json:"user"`

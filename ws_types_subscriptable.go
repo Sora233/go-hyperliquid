@@ -72,6 +72,10 @@ func (w WsOrderFills) Key() string {
 	return keyUserFills(w.User)
 }
 
+func (w WsSpotState) Key() string {
+	return keySpotState(w.User)
+}
+
 func (w WsUserFundings) Key() string {
 	return keyUserFundings(w.User)
 }

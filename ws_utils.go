@@ -65,6 +65,10 @@ func keyUserFills(user string) string {
 	return key(ChannelUserFills, user)
 }
 
+func keySpotState(user string) string {
+	return key(ChannelSpotState, user)
+}
+
 func keyUserFundings(user string) string {
 	return key(ChannelUserFundings, user)
 }

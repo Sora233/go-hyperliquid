@@ -22,6 +22,7 @@ const (
 	ChannelUserFundings              string = "userFundings"
 	ChannelWebData2                  string = "webData2"
 	ChannelBbo                       string = "bbo"
+	ChannelSpotState                 string = "spotState"
 	ChannelSubResponse               string = "subscriptionResponse"
 	ChannelClearinghouseState        string = "clearinghouseState"
 	ChannelOpenOrders                string = "openOrders"
@@ -159,6 +160,12 @@ type (
 
 	SpotState struct {
 		Balances []SpotBalance `json:"balances,omitempty"`
+	}
+
+	// WsSpotState 是 spotState 订阅的推送。
+	WsSpotState struct {
+		User      string    `json:"user"`
+		SpotState SpotState `json:"spotState"`
 	}
 
 	OpenOrders struct {
