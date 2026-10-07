@@ -202,6 +202,7 @@ type Position struct {
 	Leverage       Leverage    `json:"leverage"`
 	LiquidationPx  *string     `json:"liquidationPx"`
 	MarginUsed     string      `json:"marginUsed"`
+	MaxLeverage    int         `json:"maxLeverage"`
 	PositionValue  string      `json:"positionValue"`
 	ReturnOnEquity string      `json:"returnOnEquity"`
 	Szi            string      `json:"szi"`
@@ -222,10 +223,12 @@ type CumFunding struct {
 }
 
 type UserState struct {
-	AssetPositions     []AssetPosition `json:"assetPositions"`
-	CrossMarginSummary MarginSummary   `json:"crossMarginSummary"`
-	MarginSummary      MarginSummary   `json:"marginSummary"`
-	Withdrawable       string          `json:"withdrawable"`
+	AssetPositions             []AssetPosition `json:"assetPositions"`
+	CrossMaintenanceMarginUsed string          `json:"crossMaintenanceMarginUsed"`
+	CrossMarginSummary         MarginSummary   `json:"crossMarginSummary"`
+	MarginSummary              MarginSummary   `json:"marginSummary"`
+	Time                       int64           `json:"time"`
+	Withdrawable               string          `json:"withdrawable"`
 }
 
 type SpotBalance struct {

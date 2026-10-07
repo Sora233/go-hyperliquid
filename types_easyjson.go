@@ -1121,6 +1121,12 @@ func easyjson6601e8cdDecodeGithubComSoniricoGoHyperliquid8(in *jlexer.Lexer, out
 				}
 				in.Delim(']')
 			}
+		case "crossMaintenanceMarginUsed":
+			if in.IsNull() {
+				in.Skip()
+			} else {
+				out.CrossMaintenanceMarginUsed = string(in.String())
+			}
 		case "crossMarginSummary":
 			if in.IsNull() {
 				in.Skip()
@@ -1132,6 +1138,12 @@ func easyjson6601e8cdDecodeGithubComSoniricoGoHyperliquid8(in *jlexer.Lexer, out
 				in.Skip()
 			} else {
 				(out.MarginSummary).UnmarshalEasyJSON(in)
+			}
+		case "time":
+			if in.IsNull() {
+				in.Skip()
+			} else {
+				out.Time = int64(in.Int64())
 			}
 		case "withdrawable":
 			if in.IsNull() {
@@ -1170,6 +1182,11 @@ func easyjson6601e8cdEncodeGithubComSoniricoGoHyperliquid8(out *jwriter.Writer, 
 		}
 	}
 	{
+		const prefix string = ",\"crossMaintenanceMarginUsed\":"
+		out.RawString(prefix)
+		out.String(string(in.CrossMaintenanceMarginUsed))
+	}
+	{
 		const prefix string = ",\"crossMarginSummary\":"
 		out.RawString(prefix)
 		(in.CrossMarginSummary).MarshalEasyJSON(out)
@@ -1178,6 +1195,11 @@ func easyjson6601e8cdEncodeGithubComSoniricoGoHyperliquid8(out *jwriter.Writer, 
 		const prefix string = ",\"marginSummary\":"
 		out.RawString(prefix)
 		(in.MarginSummary).MarshalEasyJSON(out)
+	}
+	{
+		const prefix string = ",\"time\":"
+		out.RawString(prefix)
+		out.Int64(int64(in.Time))
 	}
 	{
 		const prefix string = ",\"withdrawable\":"
@@ -4861,6 +4883,12 @@ func easyjson6601e8cdDecodeGithubComSoniricoGoHyperliquid38(in *jlexer.Lexer, ou
 			} else {
 				out.MarginUsed = string(in.String())
 			}
+		case "maxLeverage":
+			if in.IsNull() {
+				in.Skip()
+			} else {
+				out.MaxLeverage = int(in.Int())
+			}
 		case "positionValue":
 			if in.IsNull() {
 				in.Skip()
@@ -4945,6 +4973,11 @@ func easyjson6601e8cdEncodeGithubComSoniricoGoHyperliquid38(out *jwriter.Writer,
 		const prefix string = ",\"marginUsed\":"
 		out.RawString(prefix)
 		out.String(string(in.MarginUsed))
+	}
+	{
+		const prefix string = ",\"maxLeverage\":"
+		out.RawString(prefix)
+		out.Int(int(in.MaxLeverage))
 	}
 	{
 		const prefix string = ",\"positionValue\":"
@@ -6562,7 +6595,7 @@ func easyjson6601e8cdEncodeGithubComSoniricoGoHyperliquid50(out *jwriter.Writer,
 		out.RawString(prefix[1:])
 		out.String(string(in.Status))
 	}
-	if true {
+	{
 		const prefix string = ",\"order\":"
 		out.RawString(prefix)
 		(in.Order).MarshalEasyJSON(out)
@@ -9225,7 +9258,11 @@ func easyjson6601e8cdDecodeGithubComSoniricoGoHyperliquid73(in *jlexer.Lexer, ou
 				if out.Cloid == nil {
 					out.Cloid = new(string)
 				}
-				*out.Cloid = string(in.String())
+				if in.IsNull() {
+					in.Skip()
+				} else {
+					*out.Cloid = string(in.String())
+				}
 			}
 		case "px":
 			if in.IsNull() {

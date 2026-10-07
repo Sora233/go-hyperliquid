@@ -123,6 +123,7 @@ func TestPosition_MarshalJSON(t *testing.T) {
 				Leverage:       Leverage{Type: "cross", Value: 10},
 				LiquidationPx:  stringPtr("45000.0"),
 				MarginUsed:     "5000.0",
+				MaxLeverage:    40,
 				PositionValue:  "50000.0",
 				ReturnOnEquity: "0.05",
 				Szi:            "1.0",
@@ -133,7 +134,7 @@ func TestPosition_MarshalJSON(t *testing.T) {
 					SinceOpen:   "-0.001129",
 				},
 			},
-			expected: `{"coin":"BTC","entryPx":"50000.0","leverage":{"type":"cross","value":10},"liquidationPx":"45000.0","marginUsed":"5000.0","positionValue":"50000.0","returnOnEquity":"0.05","szi":"1.0","unrealizedPnl":"2500.0","cumFunding":{"allTime":"0.03621","sinceOpen":"-0.001129","sinceChange":"-0.001129"}}`,
+			expected: `{"coin":"BTC","entryPx":"50000.0","leverage":{"type":"cross","value":10},"liquidationPx":"45000.0","marginUsed":"5000.0","maxLeverage":40,"positionValue":"50000.0","returnOnEquity":"0.05","szi":"1.0","unrealizedPnl":"2500.0","cumFunding":{"allTime":"0.03621","sinceOpen":"-0.001129","sinceChange":"-0.001129"}}`,
 		},
 		{
 			name: "no_position",
@@ -148,7 +149,7 @@ func TestPosition_MarshalJSON(t *testing.T) {
 				Szi:            "0.0",
 				UnrealizedPnl:  "0.0",
 			},
-			expected: `{"coin":"ETH","entryPx":null,"leverage":{"type":"isolated","value":5,"rawUsd":"1000.0"},"liquidationPx":null,"marginUsed":"0.0","positionValue":"0.0","returnOnEquity":"0.0","szi":"0.0","unrealizedPnl":"0.0"}`,
+			expected: `{"coin":"ETH","entryPx":null,"leverage":{"type":"isolated","value":5,"rawUsd":"1000.0"},"liquidationPx":null,"marginUsed":"0.0","maxLeverage":0,"positionValue":"0.0","returnOnEquity":"0.0","szi":"0.0","unrealizedPnl":"0.0"}`,
 		},
 	}
 
@@ -235,6 +236,7 @@ func TestUserState_MarshalJSON(t *testing.T) {
 							Leverage:       Leverage{Type: "cross", Value: 10},
 							LiquidationPx:  stringPtr("45000.0"),
 							MarginUsed:     "5000.0",
+							MaxLeverage:    40,
 							PositionValue:  "50000.0",
 							ReturnOnEquity: "0.05",
 							Szi:            "1.0",
@@ -243,6 +245,7 @@ func TestUserState_MarshalJSON(t *testing.T) {
 						Type: "oneWay",
 					},
 				},
+				CrossMaintenanceMarginUsed: "2500.0",
 				CrossMarginSummary: MarginSummary{
 					AccountValue:    "100000.0",
 					TotalMarginUsed: "5000.0",
@@ -255,14 +258,16 @@ func TestUserState_MarshalJSON(t *testing.T) {
 					TotalNtlPos:     "50000.0",
 					TotalRawUsd:     "100000.0",
 				},
+				Time:         1733968369395,
 				Withdrawable: "95000.0",
 			},
-			expected: `{"assetPositions":[{"position":{"coin":"BTC","entryPx":"50000.0","leverage":{"type":"cross","value":10},"liquidationPx":"45000.0","marginUsed":"5000.0","positionValue":"50000.0","returnOnEquity":"0.05","szi":"1.0","unrealizedPnl":"2500.0"},"type":"oneWay"}],"crossMarginSummary":{"accountValue":"100000.0","totalMarginUsed":"5000.0","totalNtlPos":"50000.0","totalRawUsd":"100000.0"},"marginSummary":{"accountValue":"100000.0","totalMarginUsed":"5000.0","totalNtlPos":"50000.0","totalRawUsd":"100000.0"},"withdrawable":"95000.0"}`,
+			expected: `{"assetPositions":[{"position":{"coin":"BTC","entryPx":"50000.0","leverage":{"type":"cross","value":10},"liquidationPx":"45000.0","marginUsed":"5000.0","maxLeverage":40,"positionValue":"50000.0","returnOnEquity":"0.05","szi":"1.0","unrealizedPnl":"2500.0"},"type":"oneWay"}],"crossMaintenanceMarginUsed":"2500.0","crossMarginSummary":{"accountValue":"100000.0","totalMarginUsed":"5000.0","totalNtlPos":"50000.0","totalRawUsd":"100000.0"},"marginSummary":{"accountValue":"100000.0","totalMarginUsed":"5000.0","totalNtlPos":"50000.0","totalRawUsd":"100000.0"},"time":1733968369395,"withdrawable":"95000.0"}`,
 		},
 		{
 			name: "empty_user_state",
 			state: UserState{
-				AssetPositions: []AssetPosition{},
+				AssetPositions:             []AssetPosition{},
+				CrossMaintenanceMarginUsed: "0.0",
 				CrossMarginSummary: MarginSummary{
 					AccountValue:    "0.0",
 					TotalMarginUsed: "0.0",
@@ -275,9 +280,10 @@ func TestUserState_MarshalJSON(t *testing.T) {
 					TotalNtlPos:     "0.0",
 					TotalRawUsd:     "0.0",
 				},
+				Time:         1733968369395,
 				Withdrawable: "0.0",
 			},
-			expected: `{"assetPositions":[],"crossMarginSummary":{"accountValue":"0.0","totalMarginUsed":"0.0","totalNtlPos":"0.0","totalRawUsd":"0.0"},"marginSummary":{"accountValue":"0.0","totalMarginUsed":"0.0","totalNtlPos":"0.0","totalRawUsd":"0.0"},"withdrawable":"0.0"}`,
+			expected: `{"assetPositions":[],"crossMaintenanceMarginUsed":"0.0","crossMarginSummary":{"accountValue":"0.0","totalMarginUsed":"0.0","totalNtlPos":"0.0","totalRawUsd":"0.0"},"marginSummary":{"accountValue":"0.0","totalMarginUsed":"0.0","totalNtlPos":"0.0","totalRawUsd":"0.0"},"time":1733968369395,"withdrawable":"0.0"}`,
 		},
 	}
 
@@ -295,6 +301,56 @@ func TestUserState_MarshalJSON(t *testing.T) {
 			assert.Equal(t, tt.state, unmarshaled, "round-trip should preserve data")
 		})
 	}
+}
+
+func TestUserState_UnmarshalClearinghouseState(t *testing.T) {
+	raw := []byte(`{
+		"marginSummary": {
+			"accountValue": "24.827284",
+			"totalNtlPos": "334.70208",
+			"totalRawUsd": "-309.874796",
+			"totalMarginUsed": "8.367552"
+		},
+		"crossMarginSummary": {
+			"accountValue": "24.827284",
+			"totalNtlPos": "334.70208",
+			"totalRawUsd": "-309.874796",
+			"totalMarginUsed": "8.367552"
+		},
+		"crossMaintenanceMarginUsed": "4.183776",
+		"withdrawable": "0.0",
+		"assetPositions": [
+			{
+				"type": "oneWay",
+				"position": {
+					"coin": "BTC",
+					"szi": "0.00398",
+					"leverage": {"type": "cross", "value": 40},
+					"entryPx": "86395.3",
+					"positionValue": "334.70208",
+					"unrealizedPnl": "-9.15147",
+					"returnOnEquity": "-1.0645776378",
+					"liquidationPx": null,
+					"marginUsed": "8.367552",
+					"maxLeverage": 40,
+					"cumFunding": {
+						"allTime": "0.429744",
+						"sinceOpen": "0.429744",
+						"sinceChange": "0.418652"
+					}
+				}
+			}
+		],
+		"time": 1791345383565
+	}`)
+
+	var state UserState
+	require.NoError(t, json.Unmarshal(raw, &state))
+	assert.Equal(t, "4.183776", state.CrossMaintenanceMarginUsed)
+	assert.Equal(t, int64(1791345383565), state.Time)
+	require.Len(t, state.AssetPositions, 1)
+	assert.Equal(t, 40, state.AssetPositions[0].Position.MaxLeverage)
+	assert.Nil(t, state.AssetPositions[0].Position.LiquidationPx)
 }
 
 func TestOpenOrder_MarshalJSON(t *testing.T) {
