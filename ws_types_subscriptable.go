@@ -68,6 +68,10 @@ func (w WsOrderFills) Key() string {
 	return keyUserFills(w.User)
 }
 
+func (w WsUserFundings) Key() string {
+	return keyUserFundings(w.User)
+}
+
 func (c ClearinghouseState) Key() string {
 	// ClearinghouseState messages are user-specific but don't contain user/dex info in the message itself.
 	// The dispatching is handled by the subscription system based on the subscription key.

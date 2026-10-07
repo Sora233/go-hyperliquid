@@ -61,6 +61,10 @@ func keyUserFills(user string) string {
 	return key(ChannelUserFills, user)
 }
 
+func keyUserFundings(user string) string {
+	return key(ChannelUserFundings, user)
+}
+
 func keyWebData2(_ string) string {
 	// WebData2 messages are user-specific but don't contain user info in the message itself.
 	// The dispatching is handled by the subscription system based on the subscription key.

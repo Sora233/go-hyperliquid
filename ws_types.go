@@ -18,6 +18,7 @@ const (
 	ChannelNotification       string = "notification"
 	ChannelOrderUpdates       string = "orderUpdates"
 	ChannelUserFills          string = "userFills"
+	ChannelUserFundings       string = "userFundings"
 	ChannelWebData2           string = "webData2"
 	ChannelBbo                string = "bbo"
 	ChannelSubResponse        string = "subscriptionResponse"
@@ -180,6 +181,23 @@ type (
 		Fills      []WsOrderFill `json:"fills"`
 	}
 
+	// WsUserFundings 是 userFundings 订阅的推送。首条消息是快照，之后在整点推送新增资金费。
+	WsUserFundings struct {
+		IsSnapshot bool            `json:"isSnapshot"`
+		User       string          `json:"user"`
+		Fundings   []WsUserFunding `json:"fundings"`
+	}
+
+	WsUserFunding struct {
+		Time        int64  `json:"time"`
+		Coin        string `json:"coin"`
+		USDC        string `json:"usdc"`
+		Szi         string `json:"szi"`
+		FundingRate string `json:"fundingRate"`
+		// NSamples 为采样次数。服务端可能省略该字段，或显式返回 null。
+		NSamples *int `json:"nSamples,omitempty"`
+	}
+
 	WsOrderFill struct {
 		Coin          string           `json:"coin"`
 		Px            string           `json:"px"` // price
@@ -189,8 +207,8 @@ type (
 		StartPosition string           `json:"startPosition"`
 		Dir           string           `json:"dir"` // used for frontend display
 		ClosedPnl     string           `json:"closedPnl"`
-		Hash          string           `json:"hash"`    // L1 transaction hash
-		Oid           int64            `json:"oid"`     // order id
+		Hash          string           `json:"hash"` // L1 transaction hash
+		Oid           int64            `json:"oid"`  // order id
 		Cloid         *string          `json:"cloid,omitempty"`
 		Crossed       bool             `json:"crossed"` // whether order crossed the spread (was taker)
 		Fee           string           `json:"fee"`     // negative means rebate
