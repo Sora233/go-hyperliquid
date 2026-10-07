@@ -7,25 +7,26 @@ import (
 //go:generate easyjson -all
 
 const (
-	ChannelPong               string = "pong"
-	ChannelTrades             string = "trades"
-	ChannelActiveAssetCtx     string = "activeAssetCtx"
-	ChannelFastAssetCtxs      string = "fastAssetCtxs"
-	ChannelAllDexsAssetCtxs   string = "allDexsAssetCtxs"
-	ChannelL2Book             string = "l2Book"
-	ChannelCandle             string = "candle"
-	ChannelAllMids            string = "allMids"
-	ChannelNotification       string = "notification"
-	ChannelOrderUpdates       string = "orderUpdates"
-	ChannelUserFills          string = "userFills"
-	ChannelUserFundings       string = "userFundings"
-	ChannelWebData2           string = "webData2"
-	ChannelBbo                string = "bbo"
-	ChannelSubResponse        string = "subscriptionResponse"
-	ChannelClearinghouseState string = "clearinghouseState"
-	ChannelOpenOrders         string = "openOrders"
-	ChannelTwapStates         string = "twapStates"
-	ChannelWebData3           string = "webData3"
+	ChannelPong                      string = "pong"
+	ChannelTrades                    string = "trades"
+	ChannelActiveAssetCtx            string = "activeAssetCtx"
+	ChannelFastAssetCtxs             string = "fastAssetCtxs"
+	ChannelAllDexsAssetCtxs          string = "allDexsAssetCtxs"
+	ChannelAllDexsClearinghouseState string = "allDexsClearinghouseState"
+	ChannelL2Book                    string = "l2Book"
+	ChannelCandle                    string = "candle"
+	ChannelAllMids                   string = "allMids"
+	ChannelNotification              string = "notification"
+	ChannelOrderUpdates              string = "orderUpdates"
+	ChannelUserFills                 string = "userFills"
+	ChannelUserFundings              string = "userFundings"
+	ChannelWebData2                  string = "webData2"
+	ChannelBbo                       string = "bbo"
+	ChannelSubResponse               string = "subscriptionResponse"
+	ChannelClearinghouseState        string = "clearinghouseState"
+	ChannelOpenOrders                string = "openOrders"
+	ChannelTwapStates                string = "twapStates"
+	ChannelWebData3                  string = "webData3"
 )
 
 type wsMessage struct {
@@ -63,6 +64,14 @@ type (
 	//easyjson:skip
 	WsAllDexsAssetCtxs struct {
 		Ctxs []Tuple2[string, AssetCtxs] `json:"ctxs"`
+	}
+
+	// WsAllDexsClearinghouseState 是 allDexsClearinghouseState 订阅的推送。
+	// 每个元素是 [dex, clearinghouseState]，空 dex 表示主永续。
+	//easyjson:skip
+	WsAllDexsClearinghouseState struct {
+		User                string                      `json:"user"`
+		ClearinghouseStates []Tuple2[string, UserState] `json:"clearinghouseStates"`
 	}
 
 	SharedAssetCtx struct {

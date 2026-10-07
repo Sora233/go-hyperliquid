@@ -26,6 +26,10 @@ func keyAllDexsAssetCtxs() string {
 	return key(ChannelAllDexsAssetCtxs)
 }
 
+func keyAllDexsClearinghouseState(user string) string {
+	return key(ChannelAllDexsClearinghouseState, user)
+}
+
 func keyCandles(symbol, interval string) string {
 	return key(ChannelCandle, symbol, interval)
 }

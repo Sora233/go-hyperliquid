@@ -32,6 +32,10 @@ func (w WsAllDexsAssetCtxs) Key() string {
 	return keyAllDexsAssetCtxs()
 }
 
+func (w WsAllDexsClearinghouseState) Key() string {
+	return keyAllDexsClearinghouseState(w.User)
+}
+
 func (c Candle) Key() string {
 	return keyCandles(c.Symbol, c.Interval)
 }
