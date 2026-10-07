@@ -85,10 +85,10 @@ func TestNextNonce_SequentialMonotonicity(t *testing.T) {
 		// Call multiple times without advancing fake time: must strictly increase by 1 each call.
 		const n = 5
 		vals := make([]int64, 0, n)
-		for i := 0; i < n; i++ {
+		for range n {
 			vals = append(vals, e.nextNonce())
 		}
-		for i := 0; i < n; i++ {
+		for i := range n {
 			want := base + int64(i)
 			if vals[i] != want {
 				t.Fatalf("seq[%d]=%d, want %d", i, vals[i], want)
@@ -113,7 +113,7 @@ func TestNextNonce_ConcurrencyUniqueness(t *testing.T) {
 		results := make([]int64, N)
 		var wg sync.WaitGroup
 		wg.Add(N)
-		for i := 0; i < N; i++ {
+		for i := range N {
 			go func(i int) {
 				defer wg.Done()
 				results[i] = e.nextNonce()

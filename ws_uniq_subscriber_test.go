@@ -1,6 +1,7 @@
 package hyperliquid
 
 import (
+	"maps"
 	"sync"
 	"testing"
 
@@ -294,9 +295,7 @@ func TestUniqSubscriber(t *testing.T) {
 
 				// Set initial state
 				subscriber.subscribers = make(map[string]callback)
-				for id, cb := range tt.initialSubscribers {
-					subscriber.subscribers[id] = cb
-				}
+				maps.Copy(subscriber.subscribers, tt.initialSubscribers)
 				subscriber.count = int64(len(tt.initialSubscribers))
 
 				subscriber.clear()
@@ -322,7 +321,7 @@ func TestUniqSubscriber(t *testing.T) {
 			numGoroutines := 10
 
 			// Concurrent subscribes
-			for i := 0; i < numGoroutines; i++ {
+			for i := range numGoroutines {
 				wg.Add(1)
 				go func(id int) {
 					defer wg.Done()
@@ -365,16 +364,14 @@ func TestUniqSubscriber(t *testing.T) {
 			})
 
 			// Concurrent dispatches
-			for i := 0; i < 5; i++ {
-				wg.Add(1)
-				go func() {
-					defer wg.Done()
+			for range 5 {
+				wg.Go(func() {
 					subscriber.dispatch("test")
-				}()
+				})
 			}
 
 			// Concurrent subscribes
-			for i := 0; i < 3; i++ {
+			for i := range 3 {
 				wg.Add(1)
 				go func(id int) {
 					defer wg.Done()

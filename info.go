@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"maps"
 )
 
 const (
@@ -143,9 +144,7 @@ func (i *Info) postTimeRangeRequest(
 	if endTime != nil {
 		payload["endTime"] = *endTime
 	}
-	for k, v := range extraParams {
-		payload[k] = v
-	}
+	maps.Copy(payload, extraParams)
 
 	resp, err := i.client.post(ctx, "/info", payload)
 	if err != nil {

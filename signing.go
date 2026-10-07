@@ -93,7 +93,7 @@ func walkMsgpackValue(data []byte, pos int, result *[]byte) int {
 		count := int(b & 0x0f)
 		*result = append(*result, b)
 		consumed := 1
-		for i := 0; i < count; i++ {
+		for range count {
 			c := walkMsgpackValue(data, pos+consumed, result)
 			if c <= 0 {
 				return 0
@@ -193,7 +193,7 @@ func walkMsgpackValue(data []byte, pos int, result *[]byte) int {
 		count := (int(data[pos+1]) << 8) | int(data[pos+2])
 		*result = append(*result, data[pos:pos+3]...)
 		consumed := 3
-		for i := 0; i < count; i++ {
+		for range count {
 			c := walkMsgpackValue(data, pos+consumed, result)
 			if c <= 0 {
 				return 0
@@ -208,7 +208,7 @@ func walkMsgpackValue(data []byte, pos int, result *[]byte) int {
 		count := (int(data[pos+1]) << 24) | (int(data[pos+2]) << 16) | (int(data[pos+3]) << 8) | int(data[pos+4])
 		*result = append(*result, data[pos:pos+5]...)
 		consumed := 5
-		for i := 0; i < count; i++ {
+		for range count {
 			c := walkMsgpackValue(data, pos+consumed, result)
 			if c <= 0 {
 				return 0

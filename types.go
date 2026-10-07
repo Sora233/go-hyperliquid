@@ -378,26 +378,26 @@ const (
 
 type OrderQueryResult struct {
 	Status OrderQueryStatus   `json:"status"`
-	Order  OrderQueryResponse `json:"order,omitempty"`
+	Order  OrderQueryResponse `json:"order"`
 }
 
 type Fill struct {
-	ClosedPnl     string `json:"closedPnl"`
-	Coin          string `json:"coin"`
-	Crossed       bool   `json:"crossed"`
-	Dir           string `json:"dir"`
+	ClosedPnl     string  `json:"closedPnl"`
+	Coin          string  `json:"coin"`
+	Crossed       bool    `json:"crossed"`
+	Dir           string  `json:"dir"`
 	Hash          string  `json:"hash"`
 	Oid           int64   `json:"oid"`
 	Cloid         *string `json:"cloid,omitempty"`
 	Price         string  `json:"px"`
-	Side          string `json:"side"`
-	StartPosition string `json:"startPosition"`
-	Size          string `json:"sz"`
-	Time          int64  `json:"time"`
-	Fee           string `json:"fee"`
-	FeeToken      string `json:"feeToken"`
-	BuilderFee    string `json:"builderFee,omitempty"`
-	Tid           int64  `json:"tid"`
+	Side          string  `json:"side"`
+	StartPosition string  `json:"startPosition"`
+	Size          string  `json:"sz"`
+	Time          int64   `json:"time"`
+	Fee           string  `json:"fee"`
+	FeeToken      string  `json:"feeToken"`
+	BuilderFee    string  `json:"builderFee,omitempty"`
+	Tid           int64   `json:"tid"`
 }
 
 type UserFillsParams struct {
