@@ -598,6 +598,14 @@ func TestLedgerDelta_UnmarshalJSON(t *testing.T) {
 	}
 }
 
+func TestExchangeStatus_Unmarshal(t *testing.T) {
+	raw := []byte(`{"specialStatuses":null,"time":1791545689936}`)
+
+	var status ExchangeStatus
+	require.NoError(t, json.Unmarshal(raw, &status))
+	assert.Equal(t, int64(1791545689936), status.Time)
+}
+
 func TestFrontendOpenOrder_Unmarshal(t *testing.T) {
 	raw := []byte(`{"coin":"BTC","side":"B","limitPx":"91950.0","sz":"0.0002","oid":569445296703,"timestamp":1791518013453,"triggerCondition":"Price above 91950","isTrigger":true,"triggerPx":"91950.0","children":[],"isPositionTpsl":false,"reduceOnly":true,"orderType":"Stop Market","origSz":"0.0002","tif":null,"cloid":"0xb3610bba4d5f272d978e12587e1c6cc6"}`)
 

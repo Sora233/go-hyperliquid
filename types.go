@@ -838,6 +838,11 @@ type BorrowLendReserveState struct {
 }
 type BorrowLendReserveStates []MixedValue // [int, BorrowLendReserveState]
 
+// ExchangeStatus 是 exchangeStatus 的响应，只保留服务器时间。
+type ExchangeStatus struct {
+	Time int64 `json:"time"`
+}
+
 type ExtraAgents struct {
 	Name       string `json:"name"`
 	Address    string `json:"address"`

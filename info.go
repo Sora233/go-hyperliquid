@@ -402,6 +402,22 @@ func (i *Info) AllMids(ctx context.Context, dex ...string) (map[string]string, e
 	return result, nil
 }
 
+// ExchangeStatus 查询交易所状态时间。
+func (i *Info) ExchangeStatus(ctx context.Context) (*ExchangeStatus, error) {
+	resp, err := i.client.post(ctx, "/info", map[string]any{
+		"type": "exchangeStatus",
+	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch exchange status: %w", err)
+	}
+
+	var result ExchangeStatus
+	if err := json.Unmarshal(resp, &result); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal exchange status: %w", err)
+	}
+	return &result, nil
+}
+
 func (i *Info) UserFills(ctx context.Context, params UserFillsParams) ([]Fill, error) {
 	payload := map[string]any{
 		"type": "userFills",
