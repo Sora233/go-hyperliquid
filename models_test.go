@@ -597,3 +597,19 @@ func TestLedgerDelta_UnmarshalJSON(t *testing.T) {
 		})
 	}
 }
+
+func TestFrontendOpenOrder_Unmarshal(t *testing.T) {
+	raw := []byte(`{"coin":"BTC","side":"B","limitPx":"91950.0","sz":"0.0002","oid":569445296703,"timestamp":1791518013453,"triggerCondition":"Price above 91950","isTrigger":true,"triggerPx":"91950.0","children":[],"isPositionTpsl":false,"reduceOnly":true,"orderType":"Stop Market","origSz":"0.0002","tif":null,"cloid":"0xb3610bba4d5f272d978e12587e1c6cc6"}`)
+
+	var order FrontendOpenOrder
+	require.NoError(t, json.Unmarshal(raw, &order))
+	assert.Equal(t, int64(569445296703), order.Oid)
+	require.NotNil(t, order.Cloid)
+	assert.Equal(t, "0xb3610bba4d5f272d978e12587e1c6cc6", *order.Cloid)
+	assert.Nil(t, order.Tif)
+	assert.Empty(t, order.Children)
+	assert.Equal(t, "Stop Market", order.OrderType)
+	assert.True(t, order.IsTrigger)
+	assert.True(t, order.ReduceOnly)
+	assert.False(t, order.IsPositionTpSl)
+}
